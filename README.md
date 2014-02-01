@@ -17,7 +17,7 @@ de creation d'entrepise [BCE](http://www.creationdentreprise.sn/).
 ### Run :
 
     cd bce-data
-    nmp install
+    npm install
     node scripts/scrape.js
     
     &
