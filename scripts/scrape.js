@@ -28,20 +28,20 @@ function scraper_main(){
    //End building urls
    async.mapSeries(urls,function(url, cb){
      request(url,function(err,res, body){
-        if(err){
-            cb(null,err)
-        } else {
-            cb(null,body)
-        }
+       if(err){
+         cb(null,err)
+       } else {
+         cb(null,body)
+       }
      })
     },
     function(err, results){
-       data  =[]
-       _.each(results,function(result){
-          data.push(parseBody(result))
-       })
-       console.log(data)
-       store_main(data)
+      data  =[]
+      _.each(results,function(result){
+        data.push(parseBody(result))
+      })
+      console.log(data)
+      store_main(data)
     }
    )  
 }
@@ -60,18 +60,18 @@ function parseBody(body){
   var rows= []
   console.log($("div").html())
   $("div .views-table tr").each(function(idx, html){
-      var row =[]
-      $(this).find("td").each(function(idx , html){
-	 if(rx3.test($(this).html())){
-	    raw = config.base_site + $(this).find("a").attr("href")
-         }else if(rx.test($(this).html())){
-	    raw = $(this).html().match(rx)[1]
-	 }else if(rx2.test($(this).html())){
-	    raw = $(this).html().match(rx2)[1]
-	 }else{
-	    raw = $(this).html()
-	 }
-         row.push(_.unescape(new String(raw).trim().replace(/\n/g, "").replace(/,/g," ")))
+    var row =[]
+    $(this).find("td").each(function(idx , html){
+      if(rx3.test($(this).html())){
+	  raw = config.base_site + $(this).find("a").attr("href")
+      }else if(rx.test($(this).html())){
+	  raw = $(this).html().match(rx)[1]
+	}else if(rx2.test($(this).html())){
+	  raw = $(this).html().match(rx2)[1]
+	}else{
+	  raw = $(this).html()
+	}
+        row.push(_.unescape(new String(raw).trim().replace(/\n/g, "").replace(/,/g," ")))
       })
       rows.push(row.join(','))
   })

@@ -10,22 +10,22 @@ function scraper_details(){
   fs.readFile('datas/link.json', function (err, data) {
     if (err){throw err}
     lines =  data.toString().split('\n').filter(function(line){
-        return line.length >0
+      return line.length >0
     })
     async.map(lines,
-       function(line, cb){
+      function(line, cb){
         request(line.split(",").pop(),function(err, res, body){
-            if(err){
-              cb(null, [line ,err])
-            } else {
-              cb(null, [line, body])
-            }
+          if(err){
+            cb(null, [line ,err])
+          } else {
+            cb(null, [line, body])
+          }
         })
        },
        function(err, results){
          data  =[]
          _.each(results,function(result){
-              data.push(result[0] + "," + parseBody(result[1]).join(","))
+           data.push(result[0] + "," + parseBody(result[1]).join(","))
          })
          console.log("++++++++++++++++++++"  + data)
          store_details(data)
@@ -40,11 +40,11 @@ function parseBody(body){
     function(idx, html){
       //var row =[]
       $(this).find(".field").each(function(idx, html){
-          if( $(this).text().indexOf("de commerce:") !=-1 ||$(this).text().indexOf("Capital:") !=-1){
-	     console.log($(this).text())
-             row.push($(this).text().split(":").pop())
-          }
-       })
+        if( $(this).text().indexOf("de commerce:") !=-1 ||$(this).text().indexOf("Capital:") !=-1){
+	    console.log($(this).text())
+          row.push($(this).text().split(":").pop())
+        }
+      })
     })
     return _.unique(row)
 }
