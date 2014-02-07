@@ -1,9 +1,9 @@
- var request = require("request")
+var request = require("request")
     ,cheerio = require("cheerio")
     ,fs      = require("fs")
     ,async   = require("async")
     ,_       = require("underscore")
- var config  ={
+var config  ={
    nb_row    : 794
   ,base_url : '\
 http://www.creationdentreprise.sn/rechercher-une-societe?\
@@ -20,56 +20,50 @@ var  rx  = /<a[^>]*>([^<]+)<\/a>/
     ;
 //scrapper main
 function scraper_main(){
-  var rows  = config.nb_row 
+   var rows  = config.nb_row 
       ,urls = [];
-  while(rows--){
+   while(rows--){
      urls.push(config.base_url + rows)
-  }
-  //End building urls
-   async.mapSeries(urls,
-       function(url, cb){
-        request(url,
-          function(err,res, body){
-            if(err){
-              cb(null,err)
-            } else {
-              cb(null,body)
-            }
-        })
+   }
+   //End building urls
+   async.mapSeries(urls,function(url, cb){
+     request(url,function(err,res, body){
+        if(err){
+            cb(null,err)
+        } else {
+            cb(null,body)
+        }
+     })
     },
     function(err, results){
        data  =[]
-       _.each(
-           results,
-           function(result){
-              data.push(parseBody(result))
-        })
-        console.log(data)
-        store_main(data)
-    }) 
+       _.each(results,function(result){
+          data.push(parseBody(result))
+       })
+       console.log(data)
+       store_main(data)
+    }
+   )  
 }
 //store into file
 function store_main(parsed_data){
-  fs.appendFile('datas/link.json',parsed_data.join("\n"), 
-    function (err) {
-    if(err){throw err; return;};
-      console.log("data was wrote into tmp file")
-    }
-  );
+  fs.appendFile('datas/link.json',parsed_data.join("\n"), function(err){
+    if(err){
+      throw err; return;
+    };
+    console.log("data was wrote into tmp file")
+  });
 }
 // parse body 
 function parseBody(body){
   $ = cheerio.load(body)
   var rows= []
   console.log($("div").html())
-  $("div .views-table tr").each(
-    function(idx, html){
+  $("div .views-table tr").each(function(idx, html){
       var row =[]
-      $(this).find("td").each(
-        function(idx , html){
+      $(this).find("td").each(function(idx , html){
 	 if(rx3.test($(this).html())){
-	    raw = config.base_site
-                + $(this).find("a").attr("href")
+	    raw = config.base_site + $(this).find("a").attr("href")
          }else if(rx.test($(this).html())){
 	    raw = $(this).html().match(rx)[1]
 	 }else if(rx2.test($(this).html())){
@@ -77,15 +71,10 @@ function parseBody(body){
 	 }else{
 	    raw = $(this).html()
 	 }
-         row.push(_.unescape(new String(raw).trim()
-				     .replace(/\n/g, "")
- 				     .replace(/,/g," ")
-			))
-       }
-    )
-    rows.push(row.join(','))
-  } 
-)
-return rows.join('\n')
+         row.push(_.unescape(new String(raw).trim().replace(/\n/g, "").replace(/,/g," ")))
+      })
+      rows.push(row.join(','))
+  })
+  return rows.join('\n')
 }
 scraper_main()

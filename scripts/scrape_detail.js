@@ -9,31 +9,28 @@ function scraper_details(){
   console.log("scraper_details")
   fs.readFile('datas/link.json', function (err, data) {
     if (err){throw err}
-    lines =  data.toString().split('\n').filter(
-		  function(line){ return line.length >0 }
-		 )
+    lines =  data.toString().split('\n').filter(function(line){
+        return line.length >0
+    })
     async.map(lines,
        function(line, cb){
-        request(line.split(",").pop(),
-          function(err, res, body){
+        request(line.split(",").pop(),function(err, res, body){
             if(err){
               cb(null, [line ,err])
             } else {
               cb(null, [line, body])
             }
         })
-    },
-    function(err, results){
-       data  =[]
-       _.each(
-           results,
-           function(result){
+       },
+       function(err, results){
+         data  =[]
+         _.each(results,function(result){
               data.push(result[0] + "," + parseBody(result[1]).join(","))
-        })
-        console.log("++++++++++++++++++++"  + data)
-        store_details(data)
+         })
+         console.log("++++++++++++++++++++"  + data)
+         store_details(data)
     })
- });
+  });
 }
 // parse body 
 function parseBody(body){
@@ -42,27 +39,14 @@ function parseBody(body){
   $("div .content ").each(
     function(idx, html){
       //var row =[]
-      $(this).find(".field").each(
-          function(idx, html){
-            /*$(this).find("div").each(
-                function(idx , html){
-                 if ($(this).text().indexOf(":")==-1){
-                     row.push($(this).text()
-					 .replace(/\n/g, "")
- 				       .replace(/,/g," ")
- 					)
-                 }
-               }
-            )*/
-            if(  $(this).text().indexOf("de commerce:")   !=-1
-		     ||$(this).text().indexOf("Capital:")     !=-1){
-	              console.log($(this).text())
-                    row.push($(this).text().split(":").pop())
-		}
-        }
-      )
+      $(this).find(".field").each(function(idx, html){
+          if( $(this).text().indexOf("de commerce:") !=-1 ||$(this).text().indexOf("Capital:") !=-1){
+	     console.log($(this).text())
+             row.push($(this).text().split(":").pop())
+          }
+       })
     })
-   return _.unique(row)
+    return _.unique(row)
 }
 //store into file
 function store_details(data){
@@ -77,11 +61,9 @@ Secteur d activite,\
 url,\
 Registre de commerce,\
 Capital\n')
-  fs.appendFile('datas/data.csv',data.join("\n"), 
-    function (err) {
+  fs.appendFile('datas/data.csv',data.join("\n"), function(err){
     if(err){throw err; return;};
       console.log("data was wrote into tmp file")
-    }
-  );
+  });
 }
 scraper_details()
