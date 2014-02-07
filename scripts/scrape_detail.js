@@ -50,7 +50,7 @@ function parseBody(body){
 }
 //store into file
 function store_details(data){
-fs.appendFile(
+  fs.appendFile(
 'datas/data.csv',
 '\
 Denonimation,\
@@ -61,9 +61,12 @@ Secteur d activite,\
 url,\
 Registre de commerce,\
 Capital\n')
+
+
   fs.appendFile('datas/data.csv',data.join("\n"), function(err){
     if(err){throw err; return;};
       console.log("data was wrote into tmp file")
   });
 }
+
 scraper_details()
