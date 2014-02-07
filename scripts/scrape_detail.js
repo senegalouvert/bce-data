@@ -42,7 +42,7 @@ function parseBody(body){
       $(this).find(".field").each(function(idx, html){
         if( $(this).text().indexOf("de commerce:") !=-1 ||$(this).text().indexOf("Capital:") !=-1){
 	    console.log($(this).text())
-          row.push($(this).text().split(":").pop())
+	    row.push($(this).text().split(":").pop())
         }
       })
     })
