@@ -18,42 +18,57 @@ var  rx  = /<a[^>]*>([^<]+)<\/a>/
     ,rx2 = /<span[^>]*>([^<]+)<\/span>/
     ,rx3 = /Voir/
     ;
+
+
 //scrapper main
-function scraper_main(){
+function scraper(){
    var rows  = config.nb_row 
       ,urls = [];
    while(rows--){
      urls.push(config.base_url + rows)
    }
    //End building urls
-   async.mapSeries(urls,function(url, cb){
-     request(url,function(err,res, body){
-       if(err){
-         cb(null,err)
-       } else {
-         cb(null,body)
-       }
-     })
-    },
-    function(err, results){
-      data  =[]
-      _.each(results,function(result){
-        data.push(parseBody(result))
-      })
-      console.log(data)
-      store_main(data)
-    }
+   async.mapSeries(urls,
+    makeRequest,
+    handleResponses
    )  
 }
+
+
+//Handle response
+function handleResponses(err, results){
+  data  =[]
+  _.each(results,function(result){
+     data.push(parseBody(result))
+  })
+  console.log(data)
+  writeFile(data)
+  
+}
+
+
+//Make request
+function makeRequest(url,cb){
+  request(url,function(err,res, body){
+    if(err){
+       cb(null,err)
+    } else {
+       cb(null,body)
+    }
+  })
+  
+}
 //store into file
-function store_main(parsed_data){
-  fs.appendFile('datas/link.json',parsed_data.join("\n"), function(err){
+function writeFile(parsedData){
+  fs.appendFile('datas/link.json',parsedData.join("\n"), function(err){
     if(err){
       throw err; return;
     };
     console.log("data was wrote into tmp file")
   });
 }
+
+
 // parse body 
 function parseBody(body){
   $ = cheerio.load(body)
@@ -77,4 +92,6 @@ function parseBody(body){
   })
   return rows.join('\n')
 }
-scraper_main()
+
+//Fire
+scraper()
