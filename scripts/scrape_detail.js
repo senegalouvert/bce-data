@@ -21,8 +21,11 @@ function scraperDetails(){
   console.log("scraper_details")
   fs.readFile('datas/link.json', function (err, data) {
     if (err){throw err}
+
+    // No error, so we split line and make request over 
+    // iterator
     lines =  data.toString().split('\n').filter(function(line){
-             return line.length >0
+        return line.length >0
     })
     async.map(lines,makeRequest,handleResponses);
   })
@@ -60,7 +63,9 @@ function parseBody(body){
     function(idx, html){
       //var row =[]
       $(this).find(".field").each(function(idx, html){
-        if( $(this).text().indexOf("de commerce:") !=-1 || $(this).text().indexOf("Capital:") !=-1){
+        var ok = $(this).text().indexOf("de commerce:") !=-1 
+		     || $(this).text().indexOf("Capital:")  !=-1
+	  if(ok){
 	    console.log($(this).text())
 	    row.push($(this).text().split(":").pop())
         }
@@ -74,7 +79,7 @@ function parseBody(body){
 //store into file
 function writeFile(data){
   fs.appendFile('datas/data.csv',HEAD)
-  fs.appendFile('datas/data.csv',data.join("\n"), function(err){
+  fs.appendFile('datas/data.csv',data.join("\n"),function(err){
     if(err){throw err; return;};
       console.log("data was wrote into tmp file")
   });
