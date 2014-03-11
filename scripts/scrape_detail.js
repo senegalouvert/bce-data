@@ -6,19 +6,18 @@
 
 
 var HEAD  ='\
-  Denonimation,\
-  Date creation,\
-  Siege social,\
-  Forme juridique,\
-  Secteur d activite,\
-  url,\
-  Registre de commerce,\
-  Capital\n'
+Denonimation,\
+Date creation,\
+Siege social,\
+Forme juridique,\
+Secteur d activite,\
+url,\
+Registre de commerce,\
+Capital\n'
 
 
 //scrapper main
 function scraperDetails(){
-  console.log("scraper_details")
   fs.readFile('datas/link.json', function (err, data) {
     if (err){throw err}
     // No error, so we split line and make request over 
@@ -26,14 +25,15 @@ function scraperDetails(){
     lines =  data.toString().split('\n').filter(function(line){
         return line.length >0
     })
-    async.map(lines,makeRequest,handleResponses);
+    async.mapSeries(lines,makeRequest,handleResponses);
   })
 }
 
 //make request 
 function makeRequest(line, cb){
   var query  = line.split(",").pop()
-  request(query,function(err, res, body){
+  console.log(query)
+  request(query,encoding="latin-1", function(err, res, body){
     if(err){
        cb(null, [line ,err])
     } else {
@@ -73,8 +73,8 @@ function parseBody(body){
 
 //store into file
 function writeFile(data){
-  fs.appendFile('datas/data.csv',HEAD, encoding="latin-1")
-  fs.appendFile('datas/data.csv',data.join("\n"),encoding="latin-1",function(err){
+  fs.appendFile('datas/data.csv',HEAD)
+  fs.appendFile('datas/data.csv',data.join("\n"),function(err){
     if(err){throw err; return;};
       console.log("data was wrote into tmp file")
   });

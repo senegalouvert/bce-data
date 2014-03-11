@@ -5,16 +5,14 @@ var request = require("request")
   ,_       = require("underscore")
 var config  ={
   nb_row    : 794
-
-  //For test 
+  //For test
   //nb_row      : 7
-
   ,base_url : '\
-  http://www.creationdentreprise.sn/rechercher-une-societe?\
-  field_rc_societe_value=&field_ninea_societe_value=&\
-  denomination=&field_localite_nid=All&field_siege_societe_value=\
-  &field_forme_juriduqe_nid=All&field_secteur_nid=\
-  All&field_date_crea_societe_value=&page='
+http://www.creationdentreprise.sn/rechercher-une-societe?\
+field_rc_societe_value=&field_ninea_societe_value=&\
+denomination=&field_localite_nid=All&field_siege_societe_value=\
+&field_forme_juriduqe_nid=All&field_secteur_nid=\
+All&field_date_crea_societe_value=&page='
   ,base_site: "http://www.creationdentreprise.sn"
 }
 
@@ -46,7 +44,8 @@ function handleResponses(err, results){
 
 //Make request
 function makeRequest(url,cb){
-  request(url,function(err,res, body){
+  console.log('my url ' + url)
+  request(url,encoding="latin-1",function(err,res, body){
     if(err){
        cb(null,err)
     } else {
