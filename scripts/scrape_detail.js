@@ -1,19 +1,19 @@
  var request = require("request")
-    ,cheerio = require("cheerio")
-    ,fs      = require("fs")
-    ,async   = require("async")
-    ,_       = require("underscore")
+  ,cheerio = require("cheerio")
+  ,fs      = require("fs")
+  ,async   = require("async")
+  ,_       = require("underscore")
 
 
 var HEAD  ='\
-Denonimation,\
-Date creation,\
-Siege social,\
-Forme juridique,\
-Secteur d activite,\
-url,\
-Registre de commerce,\
-Capital\n'
+  Denonimation,\
+  Date creation,\
+  Siege social,\
+  Forme juridique,\
+  Secteur d activite,\
+  url,\
+  Registre de commerce,\
+  Capital\n'
 
 
 //scrapper main
@@ -21,7 +21,6 @@ function scraperDetails(){
   console.log("scraper_details")
   fs.readFile('datas/link.json', function (err, data) {
     if (err){throw err}
-
     // No error, so we split line and make request over 
     // iterator
     lines =  data.toString().split('\n').filter(function(line){
@@ -33,7 +32,8 @@ function scraperDetails(){
 
 //make request 
 function makeRequest(line, cb){
-  request(line.split(",").pop(),function(err, res, body){
+  var query  = line.split(",").pop()
+  request(query,function(err, res, body){
     if(err){
        cb(null, [line ,err])
     } else {
@@ -41,7 +41,6 @@ function makeRequest(line, cb){
     }
   })
 }
-
 
 //handleResponse
 function handleResponses(err,results){
@@ -53,8 +52,6 @@ function handleResponses(err,results){
   writeFile(data)
 }
 
-
-
 // parse body 
 function parseBody(body){
   var row  =[]
@@ -63,23 +60,21 @@ function parseBody(body){
     function(idx, html){
       //var row =[]
       $(this).find(".field").each(function(idx, html){
-        var ok = $(this).text().indexOf("de commerce:") !=-1 
-		     || $(this).text().indexOf("Capital:")  !=-1
-	  if(ok){
-	    console.log($(this).text())
-	    row.push($(this).text().split(":").pop())
+        var ok = $(this).text().indexOf("de commerce:")!=-1 
+		|| $(this).text().indexOf("Capital:")  !=-1
+	if(ok){
+          console.log($(this).text())
+          row.push($(this).text().split(":").pop())
         }
       })
     })
     return _.unique(row)
 }
 
-
-
 //store into file
 function writeFile(data){
-  fs.appendFile('datas/data.csv',HEAD)
-  fs.appendFile('datas/data.csv',data.join("\n"),function(err){
+  fs.appendFile('datas/data.csv',HEAD, encoding="latin-1")
+  fs.appendFile('datas/data.csv',data.join("\n"),encoding="latin-1",function(err){
     if(err){throw err; return;};
       console.log("data was wrote into tmp file")
   });
