@@ -36,7 +36,6 @@ function makeRequest(line, cb){
   console.log(url)
   var q = {
    url: url,
-   encoding:"latin-1",
    timeout:2000
   }
   request(q, function(err, res, body){
