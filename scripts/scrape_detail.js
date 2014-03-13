@@ -25,15 +25,21 @@ function scraperDetails(){
     lines =  data.toString().split('\n').filter(function(line){
         return line.length >0
     })
+    console.log("line length" + lines.length)
     async.mapSeries(lines,makeRequest,handleResponses);
   })
 }
 
 //make request 
 function makeRequest(line, cb){
-  var query  = line.split(",").pop()
-  console.log(query)
-  request(query,encoding="latin-1", function(err, res, body){
+  var url  = line.split(",").pop()
+  console.log(url)
+  var q = {
+   url: url,
+   encoding:"latin-1",
+   timeout:2000
+  }
+  request(q, function(err, res, body){
     if(err){
        cb(null, [line ,err])
     } else {
