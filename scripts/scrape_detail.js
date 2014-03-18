@@ -23,10 +23,12 @@ function scraperDetails(){
     // No error, so we split line and make request over 
     // iterator
     lines =  data.toString().split('\n').filter(function(line){
-        return line.length >0
+       return line.length >0
     })
     console.log("line length" + lines.length)
-    async.mapSeries(lines,makeRequest,handleResponses);
+    async.mapSeries(lines
+                    ,makeRequest,
+                    handleResponses);
   })
 }
 
@@ -35,14 +37,14 @@ function makeRequest(line, cb){
   var url  = line.split(",").pop()
   console.log(url)
   var q = {
-   url: url,
-   timeout:2000
+    url: url,
+    timeout:2000
   }
   request(q, function(err, res, body){
     if(err){
-       cb(null, [line ,err])
-    } else {
-       cb(null, [line, body])
+      cb(null, [line ,err])
+    }else {
+      cb(null, [line, body])
     }
   })
 }
@@ -51,7 +53,10 @@ function makeRequest(line, cb){
 function handleResponses(err,results){
   data = []
   _.each(results,function(result){
-     data.push(result[0] + "," + parseBody(result[1]).join(","))
+    var parse = parseBody(result[1])
+    parse = parse.join(",")
+    parse = result[0] +","+ parse
+    data.push(parse)
   })
   console.log( data)
   writeFile(data)
@@ -65,15 +70,15 @@ function parseBody(body){
     function(idx, html){
       //var row =[]
       $(this).find(".field").each(function(idx, html){
-        var ok = $(this).text().indexOf("de commerce:")!=-1 
-		|| $(this).text().indexOf("Capital:")  !=-1
+        var ok = $(this).text().indexOf("de commerce:") !=-1 
+		 || $(this).text().indexOf("Capital:")  !=-1
 	if(ok){
           console.log($(this).text())
           row.push($(this).text().split(":").pop())
         }
       })
-    })
-    return _.unique(row)
+  })
+  return _.unique(row)
 }
 
 //store into file

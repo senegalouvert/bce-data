@@ -1,33 +1,33 @@
 var request = require("request")
-  ,cheerio = require("cheerio")
-  ,fs      = require("fs")
-  ,async   = require("async")
-  ,_       = require("underscore")
+   ,cheerio = require("cheerio")
+   ,fs      = require("fs")
+   ,async   = require("async")
+   ,_       = require("underscore")
 var config  ={
-  nb_row    : 794
-  //For test
-  //nb_row      : 7
-  ,base_url : '\
+   nb_row    : 794
+   //For test
+   //nb_row      : 7
+   ,base_url : '\
 http://www.creationdentreprise.sn/rechercher-une-societe?\
 field_rc_societe_value=&field_ninea_societe_value=&\
 denomination=&field_localite_nid=All&field_siege_societe_value=\
 &field_forme_juriduqe_nid=All&field_secteur_nid=\
 All&field_date_crea_societe_value=&page='
-  ,base_site: "http://www.creationdentreprise.sn"
+   ,base_site: "http://www.creationdentreprise.sn"
 }
 
 //scrapper main
 function scraper(){
- var rows  = config.nb_row 
-   ,urls = [];
- while(rows--){
-  urls.push(config.base_url + rows)
- }
- //End building urls
- async.mapSeries(urls,
-  makeRequest,
-  handleResponses
- )  
+  var rows  = config.nb_row 
+    ,urls = [];
+  while(rows--){
+    urls.push(config.base_url + rows)
+  }
+  //End building urls
+  async.mapSeries(urls,
+    makeRequest,
+    handleResponses
+  )  
 }
 
 
@@ -35,7 +35,8 @@ function scraper(){
 function handleResponses(err, results){
   data  =[]
   _.each(results,function(result){
-     data.push(parseBody(result))
+    var parse = parseBody(result)
+    data.push(parse)
   })
   console.log(data)
   writeFile(data)
@@ -48,16 +49,16 @@ function makeRequest(url,cb){
   request(url,encoding="latin-1",function(err,res, body){
     if(err){
        cb(null,err)
-    } else {
+    }else {
        cb(null,body)
     }
   })
 }
 //store into file
-function writeFile(parsedData){
-  fs.appendFile('datas/link.json',parsedData.join("\n"), function(err){
+function writeFile(data){
+  fs.appendFile('datas/link.json',data.join("\n"), function(err){
     if(err){
-      throw err; return;
+       throw err; return;
     };
     console.log("data was wrote into tmp file")
   });
@@ -71,12 +72,12 @@ function parseBody(body){
   $("div .views-table tr").each(function(idx, html){
     var row =[]
     $(this).find("td").each(function(idx , e){
-      var raw = getContent(e)
-      raw     = _.unescape(new String(raw)
+       var raw = getContent(e)
+       raw     = _.unescape(new String(raw)
                            .trim()
                            .replace(/\n/g, "")
                            .replace(/,/g," "))	  
-      row.push(raw)
+       row.push(raw)
     })
     rows.push(row.join(','))
   })
