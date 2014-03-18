@@ -4,9 +4,9 @@ var request = require("request")
    ,async   = require("async")
    ,_       = require("underscore")
 var config  ={
-   //nb_row    : 794
+   nb_row    : 794
    //For test
-   nb_row      : 7
+   //nb_row      : 7
    ,base_url : '\
 http://www.creationdentreprise.sn/rechercher-une-societe?\
 field_rc_societe_value=&field_ninea_societe_value=&\
@@ -25,13 +25,13 @@ function scraper(){
   }
   //End building urls
   async.mapSeries(urls,
-    makeRequest,
+    _request,
     handleResponses
   )  
 }
 
 //Handle response
-function handleResponses(err, results){
+function handler(err, results){
   data  =[]
   _.each(results,function(result){
     var parse = parseBody(result)
@@ -43,7 +43,7 @@ function handleResponses(err, results){
 
 
 //Make request
-function makeRequest(url,cb){
+function _request(url,cb){
   console.log('my url ' + url)
   request(url,encoding="latin-1",function(err,res, body){
     if(err){

@@ -26,13 +26,13 @@ function scraperDetails(){
     })
     console.log("line length" + lines.length)
     async.mapSeries(lines
-                    ,makeRequest,
-                    handleResponses);
+                    ,_request,
+                    handler);
   })
 }
 
 //make request 
-function makeRequest(line, cb){
+function _request(line, cb){
   var url  = line.split(",").pop()
   console.log(url)
   var q = {
@@ -45,7 +45,7 @@ function makeRequest(line, cb){
 }
 
 //handleResponse
-function handleResponses(err,results){
+function handler(err,results){
   data = []
   _.each(results,function(result){
     var parse = parseBody(result[1])
