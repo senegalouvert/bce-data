@@ -4,9 +4,9 @@ var request = require("request")
    ,async   = require("async")
    ,_       = require("underscore")
 var config  ={
-   nb_row    : 794
+   //nb_row    : 794
    //For test
-   //nb_row      : 7
+   nb_row      : 7
    ,base_url : '\
 http://www.creationdentreprise.sn/rechercher-une-societe?\
 field_rc_societe_value=&field_ninea_societe_value=&\
@@ -29,7 +29,6 @@ function scraper(){
     handleResponses
   )  
 }
-
 
 //Handle response
 function handleResponses(err, results){

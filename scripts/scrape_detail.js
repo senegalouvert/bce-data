@@ -15,7 +15,6 @@ url,\
 Registre de commerce,\
 Capital\n'
 
-
 //scrapper main
 function scraperDetails(){
   fs.readFile('datas/link.json', function (err, data) {
@@ -38,14 +37,10 @@ function makeRequest(line, cb){
   console.log(url)
   var q = {
     url: url,
-    timeout:2000
+    timeout:20000
   }
   request(q, function(err, res, body){
-    if(err){
-      cb(null, [line ,err])
-    }else {
-      cb(null, [line, body])
-    }
+   (err)? cb(null, [line, err]) : cb(null, [line, body])
   })
 }
 
@@ -89,6 +84,5 @@ function writeFile(data){
       console.log("data was wrote into tmp file")
   });
 }
-
 
 scraperDetails()
