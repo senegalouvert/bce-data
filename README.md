@@ -14,17 +14,17 @@ de creation d'entrepise [BCE](http://www.creationdentreprise.sn/).
     
 ### Run :
 
-Open The app.js and add the this lines
+Open The app.js and add the this lines:
     main = Scraper.Main()
 
-save and run this scripts
+save and run this scripts:
     cd  bce-data
     node scripts/app.js
  
-ReOpen The app.js and replace line above with this lines
+ReOpen The app.js and replace line above with this lines:
     main = Scraper.Detail()
 
-save and run this scripts
+save and run this scripts:
     cd  bce-data
     node scripts/app.js
  
