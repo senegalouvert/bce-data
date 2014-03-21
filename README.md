@@ -9,25 +9,27 @@ de creation d'entrepise [BCE](http://www.creationdentreprise.sn/).
 
 ## Deleloppeurs:
 
-
-
 ### Intall :
     git clone https://github.com/aliounedia/bce-data.git
     
 ### Run :
 
-    cd bce-data
-    npm install
-    node scripts/scrape.js
-    
-    &
+Open The app.js and add the this lines
+    main = Scraper.Main()
 
-    node scripts/scrape_details.js
-    
+save and run this scripts
+    cd  bce-data
+    node scripts/app.js
+ 
+ReOpen The app.js and replace line above with this lines
+    main = Scraper.Detail()
 
-### Test:
+save and run this scripts
+    cd  bce-data
+    node scripts/app.js
+ 
 
-    node scripts/test.js
+
 
    
 

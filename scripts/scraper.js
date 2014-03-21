@@ -131,7 +131,7 @@ module.exports =Scraper;
       })
       console.log(data)
       my.WriteFile('datas/data.csv', conf.HEAD)
-      my.WriteFile('datas/data.scv', data.join('\n'))
+      my.WriteFile('datas/data.csv', data.join('\n'))
     }
     // parse body 
     this.parse_body = function(body){
