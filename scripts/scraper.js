@@ -124,7 +124,6 @@ module.exports =Scraper;
                 } else if (text.indexOf("Capital:") !=-1 ) {
                   row.push(text.split(":").pop().replace(/\s/g,""))
                 } else {
-                  row.push('')
                   console.log("entreprise does not has register of commerce!")
                 }
             }
