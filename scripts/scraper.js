@@ -1,11 +1,9 @@
-
 var request = require("request")
    ,cheerio = require("cheerio")
    ,fs      = require("fs")
    ,async   = require("async")
    ,_       = require("underscore")
    , conf   = require("./conf.js");
-
 
 var Scraper = {};
 module.exports =Scraper;
@@ -106,7 +104,7 @@ module.exports =Scraper;
       if (err){throw err}
       var lines =  data.toString().split('\n')
       lines =  _.filter(lines, function(line) {
-         	return (line && line.length >0)
+        return (line && line.length >0)
       })
       console.log("line length" + lines.length)
       async.mapSeries(lines, my.QueryDetail, handler);
@@ -132,8 +130,8 @@ module.exports =Scraper;
         function(idx, html){
           //var row =[]
           $(this).find(".field").each(
-	      function(idx, html){
-                var text  = $(this).text()
+            function(idx, html){
+              var text  = $(this).text()
                 if(text.indexOf("de commerce:") !=-1) {
                   row.push(text.split(":").pop().replace(/^\s|\s$/g, ""))
                 } else if (text.indexOf("Capital:") !=-1 ) {
@@ -141,9 +139,9 @@ module.exports =Scraper;
                 } else {
                   console.log("entreprise does not has register of commerce!")
                 }
-             }
+            }
           )
-      })
+        })
       return _.unique(row)
     }
   };
