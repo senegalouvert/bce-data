@@ -50,7 +50,7 @@ module.exports =Scraper;
     var rows  = conf.nb_rows
        ,urls  = [];
 
-    while(rows--) {
+    while( rows-- ) {
       urls.push(conf.base_url + rows)
 
     }
@@ -63,7 +63,7 @@ module.exports =Scraper;
     function handler(err, results){
       var data  =[]
       _.each(results, function(result){
-        var parse = self.parse_body(result)
+        var parse = self.parseBody(result)
         data.push(parse)
       })
       console.log(data)
@@ -71,17 +71,14 @@ module.exports =Scraper;
     }
 
     // parse body 
-    this.parse_body  = function(body){
+    this.parseBody  = function(body){
       var $ = cheerio.load(body)
       var rows= []
       console.log($("div").html())
       $("div .views-table tr").each(function(idx, html){
         var row =[]
         $(this).find("td").each(function(idx, e){
-           var raw  = _.unescape(new String(self.getContent($,e))
-					    .trim()
-					    .replace(/\n/g, "")
-					    .replace(/,/g," "))	  
+           var raw  = _.unescape(new String(self.getContent($,e)).trim().replace(/\n/g, "").replace(/,/g," "))	  
            row.push(raw)
         })
         rows.push(row.join(','))
@@ -108,20 +105,16 @@ module.exports =Scraper;
     fs.readFile('datas/link.json', function (err, data) {
       if (err){throw err}
       var lines =  data.toString().split('\n')
-      lines     =  _.filter(lines, 
-	 function(line) {
-         	 return (line && line.length >0)
-         }
-      )
+      lines =  _.filter(lines, function(line) {
+         	return (line && line.length >0)
+      })
       console.log("line length" + lines.length)
       async.mapSeries(lines, my.QueryDetail, handler);
     })
 
     //handleResponse
     function handler(err,results){
-      var   data    = []
-          , parse = ""
-          ;
+      var   data    = [], parse = "";
       _.each(results, function(result){
         parse = self.parseBody(result[1])
         parse = parse.join(",") +  result[0] + "," + parse
@@ -146,7 +139,7 @@ module.exports =Scraper;
                 } else if (text.indexOf("Capital:") !=-1 ) {
                   row.push(text.split(":").pop().replace(/\s|\t|\r/g, ""))
                 } else {
-                  console.log("entreprise n 'a pas de capitale,ni de registre de commerce, biszzare !")
+                  console.log("entreprise does not has register of commerce!")
                 }
              }
           )

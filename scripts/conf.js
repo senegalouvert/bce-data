@@ -1,7 +1,7 @@
 var conf  ={
-  nb_rows    : 794,
+  //nb_rows    : 794,
   //For test
-  //nb_rows      : 5,
+  nb_rows      : 5,
   base_url : 'http://www.creationdentreprise.sn/rechercher-une-societe?\
 field_rc_societe_value=&field_ninea_societe_value=&\
 denomination=&field_localite_nid=All&field_siege_societe_value=\
