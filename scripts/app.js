@@ -1,5 +1,5 @@
 Scraper = require("./scraper.js")
 
-//main = Scraper.Main()
-main = Scraper.Detail()
+main = Scraper.Main()
+//main = Scraper.Detail()
  

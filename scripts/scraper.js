@@ -15,7 +15,11 @@ module.exports =Scraper;
 
   my.Query = function(url, cb){
     console.log('my url ' + url)
-    request(url, function(err, res, body){
+    var q = {
+      url: url,
+      timeout:20000
+    }
+    request(q, function(err, res, body){
      (err)? cb(null, err) : cb(null, body)
     })
   };
