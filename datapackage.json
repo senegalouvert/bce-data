@@ -1,0 +1,45 @@
+{
+  "name": "senegal-companies",
+  "title": "all senegaleses Companies registered via http://www.creationdentreprise.sn/",
+  "licenses": [
+    {
+      "id": "odc-pddl",
+      "name": "Public Domain Dedication and License",
+      "version": "1.0",
+      "url": "http://opendatacommons.org/licenses/pddl/1.0/"
+    }
+  ],
+  "resources": [
+    {
+      "name": "companies",
+      "path": "data/data.csv",
+      "format": "csv",
+      "mediatype": "text/csv",
+      "schema": {
+        "fields": [
+          {
+            "id": "Denonimation",
+            "description": "",
+            "type": "string"
+          },
+          {
+            "id": "Date",
+            "description": "",
+            "type": "date"
+          },
+          {
+            "id": "Secteur",
+            "description": "",
+            "type": "string"
+          },
+           {
+            "id": "Capital",
+            "description": "",
+            "type": "integer"
+          }
+
+        ]
+      } 
+    }
+  ]
+}
