@@ -91,7 +91,7 @@ module.exports =Scraper;
 
     //Get content of cell/td 
     this.getContent = function($,e){
-      var text = $(e).html().replace(/$\s|\s$/, "")
+      var text = $(e).html().replace(/^\s|\s$/, "")
       if( /Voir/.test(text) ) return conf.base_site + $(e).find("a").attr("href")
       else if( /<a[^>]*>([^<]+)<\/a>/.test(text) ) return text.match( /<a[^>]*>([^<]+)<\/a>/ )[1]
       else if( /<span[^>]*>([^<]+)<\/span>/.test(text) ) return text.match( /<span[^>]*>([^<]+)<\/span>/ )[1]
@@ -142,9 +142,9 @@ module.exports =Scraper;
 	      function(idx, html){
                 var text  = $(this).text()
                 if(text.indexOf("de commerce:") !=-1) {
-                  row.push(text.split(":").pop().replace(/$\s|\s$/, ""))
+                  row.push(text.split(":").pop().replace(/^\s|\s$/g, ""))
                 } else if (text.indexOf("Capital:") !=-1 ) {
-                  row.push(text.split(":").pop().replace(/\s/, ""))
+                  row.push(text.split(":").pop().replace(/\s|\t|\r/g, ""))
                 } else {
                   console.log("entreprise n 'a pas de capitale,ni de registre de commerce, biszzare !")
                 }
