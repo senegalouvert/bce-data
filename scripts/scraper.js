@@ -41,23 +41,17 @@ module.exports =Scraper;
     });
   };
               
-  //The Main scraper, it scrape the main page , we will
-  //define another function that scrape the page details
   my.Main = function(){
     var self  = this
     var rows  = conf.nb_rows
        ,urls  = [];
-
     while( rows-- ) {
       urls.push(conf.base_url + rows)
 
     }
     console.log(urls)
-    //End building urls
     async.mapSeries(urls, my.Query, handler)
-         
-    //Handle response , async raise error when I define  this.handler =function(xx)
-    //I dont Know why , i will open issue.
+    
     function handler(err, results){
       var data  =[]
       _.each(results, function(result){
@@ -85,25 +79,21 @@ module.exports =Scraper;
     }
 
     //Get content of cell/td 
-    this.getContent = function($,e){
-      var text = $(e).html().replace(/^\s|\s$/, "")
+    this.getContent = function($, e){
+      var text = $(e).html()
       if( /Voir/.test(text) ) return conf.base_site + $(e).find("a").attr("href")
       else if( /<a[^>]*>([^<]+)<\/a>/.test(text) ) return text.match( /<a[^>]*>([^<]+)<\/a>/ )[1]
       else if( /<span[^>]*>([^<]+)<\/span>/.test(text) ) return text.match( /<span[^>]*>([^<]+)<\/span>/ )[1]
       else return text
     }
   };
-  //Define The details scrapper function
-  //run this class just after running The main class 
-  //This will use the json Temp file that result of the
-  //main scrapeMain and crteate csv file
 
   my.Detail = function(){
     var self =this
     fs.readFile('datas/link.json', function (err, data) {
       if (err){throw err}
-      var lines =  data.toString().split('\n')
-      lines =  _.filter(lines, function(line) {
+      var lines = data.toString().split('\n')
+      lines = _.filter(lines, function(line) {
         return (line && line.length >0)
       })
       console.log("line length" + lines.length)
@@ -112,11 +102,9 @@ module.exports =Scraper;
 
     //handleResponse
     function handler(err,results){
-      var   data    = [], parse = "";
+      var data = []
       _.each(results, function(result){
-        parse = self.parseBody(result[1])
-        parse = parse.join(",") +  result[0] + "," + parse
-        data.push(parse)
+        data.push( result[0] + ',' +  self.parseBody(result[1]))
       })
       console.log(data)
       my.WriteFile('datas/data.csv', conf.head )
@@ -128,21 +116,21 @@ module.exports =Scraper;
       var $ = cheerio.load(body)
       $("div .content ").each(
         function(idx, html){
-          //var row =[]
           $(this).find(".field").each(
             function(idx, html){
               var text  = $(this).text()
                 if(text.indexOf("de commerce:") !=-1) {
-                  row.push(text.split(":").pop().replace(/^\s|\s$/g, ""))
+                  row.push(text.split(":").pop())
                 } else if (text.indexOf("Capital:") !=-1 ) {
-                  row.push(text.split(":").pop().replace(/\s|\t|\r/g, ""))
+                  row.push(text.split(":").pop().replace(/\s/g,""))
                 } else {
+                  row.push('')
                   console.log("entreprise does not has register of commerce!")
                 }
             }
           )
         })
-      return _.unique(row)
+        return _.unique(row)
     }
   };
 }(Scraper));
