@@ -1,44 +1,71 @@
 {
-  "name": "bce-data",
-  "title": "Liste des entreprises au senegal selon  http://www.creationdentreprise.sn/",
-  "licenses": [
-    {
-      "id": "odc-pddl",
-      "name": "Public Domain Dedication and License",
-      "version": "1.0",
-      "url": "http://opendatacommons.org/licenses/pddl/1.0/"
-    }
-  ],
-  "resources": [
-    {
-      "path": "/data/data.csv",
-      "format": "csv",
-      "mediatype": "text/csv",
-      "schema": {
-        "fields": [
-          {
-            "id": "Denonimation",
-            "description": "",
-            "type": "string"
-          },
-          {
-            "id": "Date",
-            "description": "",
-            "type": "date"
-          },
-          {
-            "id": "Secteur",
-            "description": "",
-            "type": "string"
-          },
-           {
-            "id": "Capital",
-            "description": "",
-            "type": "integer"
-          }
+    "name": "bce-data",
+    "title": "Liste des entreprises au senegal selon  http://www.creationdentreprise.sn/",
+    "licenses": [
+        {
+            "id": "odc-pddl",
+            "name": "Public Domain Dedication and License",
+            "version": "1.0",
+            "url": "http://opendatacommons.org/licenses/pddl/1.0/"
+        }
+    ],
+    "resources": [
+        {
+            "path": "/data/data.csv",
+            "format": "csv",
+            "mediatype": "text/csv",
+            "schema": {
+                "fields": [
+                    {
+                        "id": "Denonimation",
+                        "description": "",
+                        "type": "string"
+                    },
+                    {
+                        "id": "Date creation",
+                        "description": "",
+                        "type": "date"
+                    },
+                    {
+                        "id": "Siege social",
+                        "description": "",
+                        "type": "string"
+                    },
+                    {
+                        "id": "Forme juridique",
+                        "description": "",
+                        "type": "string"
+                    },
+                    {
+                        "id": "Secteur d activite",
+                        "description": "",
+                        "type": "string"
+                    },
+                    {
+                        "id": "Registre de commerce",
+                        "description": "",
+                        "type": "string"
+                    },
+                    {
+                        "id": "Capital",
+                        "description": "",
+                        "type": "integer"
+                    }
+                ],
+                "views": [
+                    {
+                        "id": "graph",
+                        "type": "Graph",
+                        "state": {
+                            "group": "Denonimation",
+                            "series": [
+                                "Capital"
+                            ]
+                        }
+                    }
+                ]
+            }
+        }
+    ]
 
-        ]
-      } 
-    }
-  ]
-}
+ 
