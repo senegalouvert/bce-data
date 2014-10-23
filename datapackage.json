@@ -62,7 +62,7 @@
                         "id": "graph",
                         "type": "Graph",
                         "state": {
-                            "group": "Denonimation",
+                            "group": "Date creation",
                             "series": [
                                 "Capital"
                             ]
