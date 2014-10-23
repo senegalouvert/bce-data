@@ -25,7 +25,7 @@
                         "id": "Date creation",
                         "description": "",
                         "type": "date",
-                        "format": "dd/mm/yyyy"
+                        "format": "yyyy"
                     },
                     {
                         "id": "Siege social",
