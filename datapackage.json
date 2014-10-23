@@ -63,7 +63,7 @@
                         "id": "graph",
                         "type": "Graph",
                         "state": {
-                            "group": "Date creation",
+                            "group": "Capital",
                             "series": [
                                 "Capital"
                             ]
