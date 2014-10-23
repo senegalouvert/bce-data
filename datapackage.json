@@ -47,6 +47,11 @@
                         "type": "string"
                     },
                     {
+                        "id": "url",
+                        "description": "",
+                        "type": "string"
+                    },
+                    {
                         "id": "Capital",
                         "description": "",
                         "type": "integer"
