@@ -12,7 +12,7 @@
   "resources": [
     {
       "name": "companies",
-      "path": "data/data.csv",
+      "path": "/data/data.csv",
       "format": "csv",
       "mediatype": "text/csv",
       "schema": {
