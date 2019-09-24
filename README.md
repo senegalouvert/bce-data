@@ -9,14 +9,30 @@ de creation d'entrepise [BCE](http://www.creationdentreprise.sn/).
 
 ## Deleloppeurs:
 
-### Intall :
+### Intallation :
+
+* Dependence
+
+    Install nodejs > [https://nodejs.org/](https://nodejs.org/en/download/)
+
+Install packages
+
+    npm install request cheerio async underscore
+
+Clone the repo
+
     git clone https://github.com/aliounedia/bce-data.git
     
 ### Run :
 
-Open The app.js and add the this lines:
+Create a folder "datas"
+
+    mkdir datas
+
+Open The scripts/app.js and add the this lines:
 
     main = Scraper.Main()
+    //main = Scraper.Detail()
 
 save and run this scripts:
 
@@ -25,13 +41,19 @@ save and run this scripts:
  
 ReOpen The app.js and replace line above with this lines:
 
+    //main = Scraper.Main()
     main = Scraper.Detail()
 
 save and run this scripts:
  
     cd  bce-data
     node scripts/app.js
- 
+
+To scraping more then 10 page change the conf.js file 
+
+    //nb_rows    : 1653,
+    //For test
+     nb_rows      : 10,
 
 
 

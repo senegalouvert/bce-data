@@ -1,5 +1,5 @@
 var conf  ={
-  nb_rows    : 794,
+  //nb_rows    : 1653,
   //For test
   nb_rows      : 10,
   base_url : 'http://www.creationdentreprise.sn/rechercher-une-societe?\
