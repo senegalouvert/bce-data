@@ -62,15 +62,15 @@ module.exports =Scraper;
         var parse = self.parseBody(result)
         data.push(parse)
       })
-      console.log(data)
-      my.WriteFile('datas/link.json', data.join('\n'))
+      //console.log(data)
+      my.WriteFile('data/link.json', data.join('\n'))
     }
 
     // parse body 
     this.parseBody  = function(body){
       var $ = cheerio.load(body)
       var rows= []
-      console.log($("div").html())
+      //console.log($("div").html())
       $("div .views-table tr").each(function(idx, html){
         var row =[]
         $(this).find("td").each(function(idx, e){
@@ -94,13 +94,13 @@ module.exports =Scraper;
 
   my.Detail = function(){
     var self =this
-    fs.readFile('datas/link.json', function (err, data) {
+    fs.readFile('data/link.json', function (err, data) {
       if (err){throw err}
       var lines = data.toString().split('\n')
       lines = _.filter(lines, function(line) {
         return (line && line.length >0)
       })
-      console.log("line length" + lines.length)
+      console.log("line length " + lines.length)
       async.mapSeries(lines, my.QueryDetail, handler);
     })
 
@@ -110,9 +110,9 @@ module.exports =Scraper;
       _.each(results, function(result){
         data.push( result[0] + ',' +  self.parseBody(result[1]))
       })
-      console.log(data)
-      my.WriteFile('datas/data.csv', conf.head )
-      my.WriteFile('datas/data.csv', data.join('\n'))
+      //console.log(data)
+      my.WriteFile('data/data.csv', conf.head )
+      my.WriteFile('data/data.csv', data.join('\n'))
     }
     // parse body 
     this.parseBody = function(body){
@@ -123,10 +123,18 @@ module.exports =Scraper;
           $(this).find(".field").each(
             function(idx, html){
               var text  = $(this).text()
-                if(text.indexOf("de commerce:") !=-1) {
-                  row.push(text.split(":").pop())
-                } else if (text.indexOf("Capital:") !=-1 ) {
-                  row.push(text.split(":").pop().replace(/\s/g,""))
+                if (text.indexOf("Siège social:") !=-1) {
+                  row.push(text.split(",").join("-").split(":").pop())
+                } else if (text.indexOf("Localité:") != -1) {
+                    row.push(text.split(",").join("-").split(":").pop())
+                } else if (text.indexOf("Secteur d'activité:") != -1) {
+                  row.push(text.substring(19).split(",").join("-"))
+                } else if (text.indexOf("Forme Juridique:") != -1) {
+                  row.push(text.substring(17).split(",").join("-"))
+                } else if (text.indexOf("Objet social:") != -1) {
+                  row.push(text.substring(14).split(",").join("-"))
+                } else if (text.indexOf("Capital:") != -1) {
+                  row.push(text.split(":").pop().replace(/\s/g, ""))
                 } else {
                   console.log("entreprise does not has register of commerce!")
                 }

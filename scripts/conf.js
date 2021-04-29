@@ -1,7 +1,7 @@
 var conf  ={
-  //nb_rows    : 1653,
+  nb_rows    : 1733,
   //For test
-  nb_rows      : 10,
+  //nb_rows      : 1,
   base_url : 'http://www.creationdentreprise.sn/rechercher-une-societe?\
 field_rc_societe_value=&field_ninea_societe_value=&\
 denomination=&field_localite_nid=All&field_siege_societe_value=\
@@ -12,11 +12,14 @@ All&field_date_crea_societe_value=&page='
   ,head :'\
   Denonimation,\
   Date creation,\
-  Siege social,\
-  Forme juridique,\
-  Secteur d activite,\
-  url,\
+  Ninéa,\
   Registre de commerce,\
+  url,\
+  Siège social,\
+  Localité,\
+  Secteur d activite,\
+  Forme juridique,\
+  Objet social,\
   Capital\n'
 
 }

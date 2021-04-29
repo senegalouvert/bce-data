@@ -6,6 +6,7 @@ C'est une institution publique de l'etat du Senegal qui offre a tout
 entrepreneur un guichet unique pour l'accomplissement des formalites  
 de creation d'entrepise [BCE](http://www.creationdentreprise.sn/).
 
+## [Données (17626 entreprises)](data/data.csv)
 
 ## Deleloppeurs:
 
@@ -27,7 +28,7 @@ Clone the repo
 
 Create a folder "datas"
 
-    mkdir datas
+    mkdir data
 
 Open The scripts/app.js and add the this lines:
 
@@ -51,11 +52,6 @@ save and run this scripts:
 
 To scraping more then 10 page change the conf.js file 
 
-    //nb_rows    : 1653,
+    //nb_rows    : 19051,
     //For test
      nb_rows      : 10,
-
-
-
-   
-
